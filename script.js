@@ -1,32 +1,73 @@
 let count = 0;
 let compArr = [];
 let moves = 0;
+let seconds = 0;
+let minutes = 0;
 
-
+//reloads page to start new game
 $('.replay').on('click', function(){
 	window.location.reload();
 });
 
+
+//closes current window
+$('.exit').on('click', function(){
+	window.close();
+});
+
+
+//raises greeting screen and starts timer by adding class notMatched to all cards
+$('.start').on('click', function(){
+	$('.card').addClass('notMatched');
+	$('.intro').css('margin-bottom', '100%');
+});
+
+window.setInterval(function timer() {
+	if ($('.card').hasClass('notMatched')){
+		 if (seconds < 59) {
+			seconds += 1;
+		} else if (seconds === 59) {
+			seconds = 0;
+			minutes += 1;
+		};
+		if (seconds < 10) {
+		  if (minutes < 10) {
+				document.getElementById('timer').innerHTML = '0' + minutes + ':0' + seconds;
+			} else {
+			  document.getElementById('timer').innerHTML = minutes + ':0' + seconds;
+		 	};
+			
+		} else {
+			if (minutes < 10) {
+				document.getElementById('timer').innerHTML = '0' + minutes + ':' + seconds;
+			} else {
+				document.getElementById('timer').innerHTML = minutes + ':' + seconds;
+			};
+		}
+	} 
+}, 1000);
+
+//give score based on number of moves
 function score() {
-	if (moves <= 11) {
+	if (moves <= 12) {
 		//3 stars
 		$('.star1').addClass('fa-star');
 		$('.star2').addClass('fa-star');
 		$('.star3').addClass('fa-star');
-	} else if (moves > 11 && moves <= 13) {
+	} else if (moves > 12 && moves <= 14) {
 		//2 and a half stars
 		$('.star1').addClass('fa-star');
 		$('.star2').addClass('fa-star');
 		$('.star3').addClass('fa-star-half');
-	} else if (moves > 13 && moves <= 15) {
+	} else if (moves > 14 && moves <= 16) {
 		//2 stars
 		$('.star1').addClass('fa-star');
 		$('.star2').addClass('fa-star');
-	} else if (moves > 15 && moves <= 17) {
+	} else if (moves > 16 && moves <= 18) {
 		//1 and a half stars
 		$('.star1').addClass('fa-star');
 		$('.star2').addClass('fa-star-half');
-	} else if (moves > 17 && moves <= 19) {
+	} else if (moves > 18 && moves <= 20) {
 		//1 star
 		$('.star1').addClass('fa-star');
 	} else {
@@ -40,7 +81,6 @@ console.log('compArr begin ' + compArr);
 $('.card').click(function(e){
 		let selector = this.childNodes[1].childNodes[1].childNodes[1].className;
 																
-		
 	
 		if (typeof compArr[0] === undefined) {
 			compArr = [];
